@@ -1,9 +1,13 @@
 const { Client, Collection } = require("discord.js");
+const discord = require("discord.js");
 const { token } = require("./config.json");
-const mysql = require('./database/database.js')
-const bot = new Client();
+const bot = new discord.Client();
+require("./handler")(bot);
 
-["aliases", "commands"].forEach(x => bot[x] = new Collection());
-["console", "command", "event"].forEach(x => require(`./handlers/${x}`)(bot));
+bot.commands = new discord.Collection();
+bot.aliases = new discord.Collection();
+bot.afk = new Map();
+
+module.exports.bot = bot;
 
 bot.login(token);
